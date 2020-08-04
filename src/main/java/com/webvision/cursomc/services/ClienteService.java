@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.webvision.cursomc.domain.Cliente;
-import com.webvision.cursomc.exceptions.ObjectNotFoundException;
+import com.webvision.cursomc.services.exceptions.ObjectNotFoundException;
 import com.webvision.cursomc.repositories.ClienteRepository;
 
 

@@ -1,4 +1,4 @@
-package com.webvision.cursomc.exceptions;
+package com.webvision.cursomc.services.exceptions;
 
 public class ObjectNotFoundException extends RuntimeException{
 
