@@ -3,6 +3,7 @@ package com.webvision.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.webvision.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -54,5 +55,9 @@ public class CategoriaService {
 	public Page findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
 	}
 }
