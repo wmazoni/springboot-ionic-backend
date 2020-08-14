@@ -3,6 +3,7 @@ package com.webvision.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.webvision.cursomc.domain.Cliente;
 import com.webvision.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,8 +35,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
@@ -59,5 +61,9 @@ public class CategoriaService {
 
 	public Categoria fromDTO(CategoriaDTO objDTO) {
 		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
+
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 }
