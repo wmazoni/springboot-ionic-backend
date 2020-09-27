@@ -3,13 +3,6 @@ package com.webvision.cursomc.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.webvision.cursomc.domain.*;
-import com.webvision.cursomc.domain.enums.TipoCliente;
-import com.webvision.cursomc.dto.ClienteDTO;
-import com.webvision.cursomc.dto.ClienteNewDTO;
-import com.webvision.cursomc.repositories.CidadeRepository;
-import com.webvision.cursomc.repositories.EnderecoRepository;
-import com.webvision.cursomc.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -18,9 +11,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.webvision.cursomc.domain.Cidade;
 import com.webvision.cursomc.domain.Cliente;
-import com.webvision.cursomc.services.exceptions.ObjectNotFoundException;
+import com.webvision.cursomc.domain.Endereco;
+import com.webvision.cursomc.domain.enums.Perfil;
+import com.webvision.cursomc.domain.enums.TipoCliente;
+import com.webvision.cursomc.dto.ClienteDTO;
+import com.webvision.cursomc.dto.ClienteNewDTO;
 import com.webvision.cursomc.repositories.ClienteRepository;
+import com.webvision.cursomc.repositories.EnderecoRepository;
+import com.webvision.cursomc.security.UserSS;
+import com.webvision.cursomc.services.exceptions.AuthorizationException;
+import com.webvision.cursomc.services.exceptions.DataIntegrityException;
+import com.webvision.cursomc.services.exceptions.ObjectNotFoundException;
 
 
 @Service
@@ -34,8 +37,16 @@ public class ClienteService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	
+	
 
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
