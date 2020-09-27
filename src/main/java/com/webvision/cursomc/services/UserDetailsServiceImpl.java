@@ -12,7 +12,7 @@ import com.webvision.cursomc.security.UserSS;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	
+
 	@Autowired
 	private ClienteRepository repo;
 
@@ -24,5 +24,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		return new UserSS(cli.getId(), cli.getEmail(), cli.getSenha(), cli.getPerfis());
 	}
-
 }
