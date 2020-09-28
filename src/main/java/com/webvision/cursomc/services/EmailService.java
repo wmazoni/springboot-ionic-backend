@@ -1,10 +1,11 @@
 package com.webvision.cursomc.services;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.mail.SimpleMailMessage;
 
+import com.webvision.cursomc.domain.Cliente;
 import com.webvision.cursomc.domain.Pedido;
-
-import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
 	
@@ -16,4 +17,5 @@ public interface EmailService {
 
 	void sendHtmlEmail(MimeMessage msg);
 
+	void sendNewPasswordEmail(Cliente cliente, String newPass);
 }
