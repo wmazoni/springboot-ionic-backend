@@ -1,5 +1,6 @@
 package com.webvision.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ import com.webvision.cursomc.security.UserSS;
 import com.webvision.cursomc.services.exceptions.AuthorizationException;
 import com.webvision.cursomc.services.exceptions.DataIntegrityException;
 import com.webvision.cursomc.services.exceptions.ObjectNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -38,7 +40,8 @@ public class ClienteService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
-	
+	@Autowired
+	private S3Service s3Service;
 
 	public Cliente find(Integer id) {
 		
@@ -107,5 +110,9 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 }
